@@ -1,118 +1,212 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { Box, Flex, Heading, Center, Stack, Divider, Grid, Button } from '@chakra-ui/react'
+import Device from '@/Device/index'
+import { useState, useEffect, use } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+
+//shamelessly copied from https://stackoverflow.com/questions/63406435/how-to-detect-window-size-in-next-js-ssr-using-react-hook
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        //@ts-ignore
+        width: window.innerWidth,
+        //@ts-ignore
+        height: window.innerHeight,
+      });
+    }
+    
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+     
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
+}
+
+export function MobileHome(){
+  return(
+    <Box 
+      padding="5"
+      bgColor="black"
+      color="white"
+      minH="100vh"
+      fontFamily="Inter"
     >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Stack direction="column">
+        <Center>
+          <Stack direction="column" spacing="2">
+            <Center><Image src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" /></Center>
+            <Divider orientation="horizontal" colorScheme='white' maxHeight="70%" />
+            <Heading
+              mb={4}
+              fontSize="6xl"
+              fontWeight="extrabold"
+              textAlign="center"
+              bgGradient="linear(to-r, #7928CA, #FF0080)"
+              bgClip="text"
+            >
+              Whoops!
+            </Heading>
+            <Center
+              color="white"
+              fontSize="2xl"
+              maxWidth="80vw"
+              textAlign="center"
+            >
+              <strong>Sorry, but there is nothing here.</strong>
+            </Center>
+          </Stack>
+        </Center>
+        <Center>
+        <Stack 
+          direction="column" 
+          spacing="2" 
+          maxWidth="80vw"
+          textAlign="center"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <Center fontSize="md">
+            You can rest here, as long as you&apos;d like.
+          </Center>
+          <Center fontSize="md">
+          Or you can check out some of the other stuff I made:
+          </Center>
+          <Grid templateColumns="repeat(auto-fit, 1fr)" gap="3" maxWidth="700px">
+            <Button variant="outline" colorScheme='pink' as="a" href="https://github.com/SirBerg">
+              Github
+            </Button>
+            <Button variant="outline" colorScheme='pink' as="a" href="https://www.npmjs.com/~sirberg">
+              NPM
+            </Button>
+            <Button variant="outline" colorScheme='pink' as="a" href="https://benno.rodehack.com">
+              My personal Site
+            </Button>
+            <Button variant="outline" colorScheme='pink' as="a" href="https://iza.sh">
+              My URL Shortener
+            </Button>
+            <Button variant="outline" colorScheme='pink' as="a" href="https://izanami.dev">
+              My Bungie.net API wrapper
+            </Button>
+            <Button variant="outline" colorScheme='pink' as="a" href="https://holypenguin.net">
+              My friends website
+            </Button>
+          </Grid>
+        </Stack>
+        </Center>
+      </Stack>
+    </Box>
+  )
+}
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+export function DesktopHome(){
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
+  return(
+    <Box
+      bgColor="black"
+      color="white"
+      minWidth="500"
+      fontFamily="Inter"
+      h="100%"
+      w="100%"
+    >
+      <Center
+        minH="100vh"
+        minWidth="100vw"
+      >
+        <Stack direction="column">
+          <Center>
+            <Stack direction="row" spacing="5">
+              <Image src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" />
+              <Center>
+              <Divider orientation="vertical" colorScheme='white' maxHeight="70%" />
+              </Center>
+              <Center>
+                <Stack direction="column">
+                  <Heading
+                    mb={4}
+                    fontSize="6xl"
+                    fontWeight="extrabold"
+                    textAlign="center"
+                    bgGradient="linear(to-r, #7928CA, #FF0080)"
+                    bgClip="text"
+                  >
+                    Whoops!
+                  </Heading>
+                  <Center
+                    color="white"
+                    fontSize="xl"
+                  >
+                    <strong>Sorry, but there is nothing here.</strong>
+                  </Center>
+                </Stack>
+              </Center>
+            </Stack>
+          </Center>
+          <Center>
+            <Stack direction="column">
+              <Center fontSize="md">
+                <strong>You can rest here, as long as you&apos;d like.</strong>
+              </Center>
+              <Center fontSize="md">
+              <strong>Or you can check out some of the other stuff I made:</strong>
+              </Center>
+              <Grid templateColumns="repeat(auto-fit, 1fr)" gap="3" maxWidth="700px">
+                <Button variant="outline" colorScheme='pink' as="a" href="https://github.com/SirBerg">
+                  Github
+                </Button>
+                <Button variant="outline" colorScheme='pink' as="a" href="https://www.npmjs.com/~sirberg">
+                  NPM
+                </Button>
+                <Button variant="outline" colorScheme='pink' as="a" href="https://benno.rodehack.com">
+                  My personal Site
+                </Button>
+                <Button variant="outline" colorScheme='pink' as="a" href="https://iza.sh">
+                  My URL Shortener
+                </Button>
+                <Button variant="outline" colorScheme='pink' as="a" href="https://izanami.dev">
+                  My Bungie.net API wrapper
+                </Button>
+                <Button variant="outline" colorScheme='pink' as="a" href="https://holypenguin.net">
+                  My friends website
+                </Button>
+              </Grid>
+            </Stack>
+            
+          </Center>
+          
+        </Stack>
+      </Center>
+    </Box>
+  )
+}
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+export default function Home() {
+  const size = useWindowSize();
+
+  return (
+    <Device>
+    {({ isMobile }) => {
+      if (isMobile || size.width && size.width < 700) return <MobileHome />
+      else
+      return <DesktopHome />
+    }}
+  </Device>
   )
 }
