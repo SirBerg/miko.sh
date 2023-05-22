@@ -53,7 +53,7 @@ export function MobileHome(){
       <Stack direction="column">
         <Center>
           <Stack direction="column" spacing="2">
-            <Center><Image src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" /></Center>
+            <Center><img src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" /></Center>
             <Divider orientation="horizontal" colorScheme='white' maxHeight="70%" />
             <Heading
               mb={4}
@@ -133,7 +133,7 @@ export function DesktopHome(){
         <Stack direction="column">
           <Center>
             <Stack direction="row" spacing="5">
-              <Image src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" />
+              <img src="https://pub-74519fc56dd141d29ff5ef6aa3030ad9.r2.dev/shocked.png" alt="shocked-face" width="200" height="200" />
               <Center>
               <Divider orientation="vertical" colorScheme='white' maxHeight="70%" />
               </Center>
